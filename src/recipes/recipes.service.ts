@@ -1,4 +1,4 @@
-import { RecipeNotFoundError } from "../errors";
+import { RecipeNotFoundError, ValidationError } from "../errors";
 
 export type Rezept = {
   id: number;
@@ -68,6 +68,11 @@ export async function getRecipeById(id: number): Promise<Rezept> {
 }
 
 export async function createRecipe(daten: Omit<Rezept, "id">): Promise<Rezept> {
+  // Titel fehlt oder besteht nur aus Leerzeichen → 400
+  if (typeof daten?.titel !== "string" || daten.titel.trim() === "") {
+    throw new ValidationError("Ein Rezept braucht einen Titel");
+  }
+
   // id zuletzt, damit eine mitgeschickte id aus dem Body sie nicht überschreibt
   const neues: Rezept = { ...daten, id: naechsteId++ };
   rezepte.push(neues);
