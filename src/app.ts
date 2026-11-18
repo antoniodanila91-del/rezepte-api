@@ -1,6 +1,7 @@
 import express from "express";
 import recipesRouter from "./recipes/recipes.router";
 import { logger } from "./middlewares/logger";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 app.use(express.json());              // JSON im Request-Body lesen
@@ -14,5 +15,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/recipes", recipesRouter);    // alle Rezept-Routen hängen unter /recipes
+
+app.use(errorHandler);                // muss NACH den Routen stehen (ganz unten)
 
 export default app;                   // die fertige App exportieren (NICHT starten)
