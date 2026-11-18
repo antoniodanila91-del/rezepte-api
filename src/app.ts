@@ -16,6 +16,11 @@ app.get("/health", (req, res) => {
 
 app.use("/recipes", recipesRouter);    // alle Rezept-Routen hängen unter /recipes
 
+// 404-Fallback: Middleware ohne Pfad – greift nur, wenn keine Route oben gepasst hat
+app.use((req, res) => {
+  res.status(404).json({ fehler: `Route ${req.method} ${req.originalUrl} existiert nicht` });
+});
+
 app.use(errorHandler);                // muss NACH den Routen stehen (ganz unten)
 
 export default app;                   // die fertige App exportieren (NICHT starten)
