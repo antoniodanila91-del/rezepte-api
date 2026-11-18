@@ -14,6 +14,11 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+// Bonus: absichtlich kaputte Route – die Error-Middleware fängt den Absturz ab
+app.get("/crash", (req, res) => {
+  throw new Error("Absichtlicher Absturz zum Testen");
+});
+
 app.use("/recipes", recipesRouter);    // alle Rezept-Routen hängen unter /recipes
 
 // 404-Fallback: Middleware ohne Pfad – greift nur, wenn keine Route oben gepasst hat
