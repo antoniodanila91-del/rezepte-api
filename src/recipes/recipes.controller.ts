@@ -24,15 +24,10 @@ export async function getRecipesHandler(req: Request, res: Response, next: NextF
 export async function getRecipeHandler(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
-    const rezept = await getRecipeById(id);
-
-    if (!rezept) {
-      return res.status(404).json({ fehler: "Rezept nicht gefunden" });
-    }
-
+    const rezept = await getRecipeById(id);   // wirft RecipeNotFoundError, wenn es keins gibt
     res.json(rezept);
   } catch (err) {
-    next(err);
+    next(err);                                // -> Error-Middleware
   }
 }
 
