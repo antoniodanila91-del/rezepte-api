@@ -1,7 +1,7 @@
 import express from "express";
-import recipesRouter from "./recipes/recipes.router";
-import { logger } from "./middlewares/logger";
-import { errorHandler } from "./middlewares/error.middleware";
+import recipesRouter from "./recipes/recipes.router.ts";
+import { logger } from "./middlewares/logger.ts";
+import { errorHandler } from "./middlewares/error.middleware.ts";
 
 const app = express();
 app.use(express.json());              // JSON im Request-Body lesen
