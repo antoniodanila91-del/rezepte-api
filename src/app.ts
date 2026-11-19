@@ -8,7 +8,7 @@ app.use(express.json());              // JSON im Request-Body lesen
 app.use(logger);                      // vor den Routen -> sieht jede Anfrage
 
 app.get("/", (req, res) => {
-  res.send("Willkommen bei der Rezepte-API 👋");
+  res.send("Willkommen bei der Rezepte-API 👋 – jetzt live auf Vercel 🚀");
 });
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
