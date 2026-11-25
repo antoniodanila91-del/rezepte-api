@@ -3,6 +3,8 @@ import recipesRouter from "./recipes/recipes.router.ts";
 import { logger } from "./middlewares/logger.ts";
 import { errorHandler } from "./middlewares/error.middleware.ts";
 
+import { getPostgresPool } from "./pool.postgres.ts";
+
 const app = express();
 app.use(express.json());              // JSON im Request-Body lesen
 app.use(logger);                      // vor den Routen -> sieht jede Anfrage
@@ -12,6 +14,12 @@ app.get("/", (req, res) => {
 });
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
+});
+
+app.get("/date", async (req, res) => {
+  const pool = getPostgresPool();
+  const result = await pool.query("SELECT NOW() AS current_time");
+  res.status(200).json({ current_time: result.rows[0].current_time } );
 });
 
 // Bonus: absichtlich kaputte Route – die Error-Middleware fängt den Absturz ab

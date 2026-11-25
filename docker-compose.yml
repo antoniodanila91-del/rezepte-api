@@ -6,11 +6,11 @@ services:
     container_name: pg-db-15
     restart: always
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: "1234"
-      POSTGRES_DB: syntax_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5433:5432" # Host-Port 5433, da 5432 bereits von PostgreSQL 18 belegt ist
+      - "5433:5432" # links = Port auf meinem Rechner (5433), rechts = Port im Container (5432)
     volumes:
       - pgdata:/var/lib/postgresql/data
 

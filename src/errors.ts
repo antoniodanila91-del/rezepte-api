@@ -15,3 +15,12 @@ export class ValidationError extends Error {
     this.name = new.target.name;    // Name = "ValidationError" statt nur "Error"
   }
 }
+
+// Fachlicher Fehler: das gibt es schon (z. B. Zutat ist bereits im Rezept) → 409
+export class ConflictError extends Error {
+  status = 409;
+  constructor(message: string) {
+    super(message);
+    this.name = new.target.name;    // Name = "ConflictError" statt nur "Error"
+  }
+}

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getAllRecipes, getRecipeById, createRecipe, deleteRecipe } from "./recipes.service.ts";
+import { getAllRecipes, getRecipeById, createRecipe, deleteRecipe, updateRecipe, addZutatToRecipe } from "./recipes.service.ts";
 
 export async function getRecipesHandler(req: Request, res: Response, next: NextFunction) {
   try {
@@ -50,6 +50,28 @@ export async function deleteRecipeHandler(req: Request, res: Response, next: Nex
     }
 
     res.status(204).send();             // 204 = No Content, kein Body
+  } catch (err) {
+    next(err);
+  }
+}
+
+// --- BONUS: Rezept ändern (PATCH /recipes/:id) ---
+export async function updateRecipeHandler(req: Request, res: Response, next: NextFunction) {
+  try {
+    const id = Number(req.params.id);
+    const geaendert = await updateRecipe(id, req.body);   // wirft 400 oder 404 bei Problemen
+    res.json(geaendert);                // 200 = OK, mit dem geänderten Rezept
+  } catch (err) {
+    next(err);
+  }
+}
+
+// --- BONUS: Zutat hinzufügen (POST /recipes/:id/zutaten) ---
+export async function addZutatHandler(req: Request, res: Response, next: NextFunction) {
+  try {
+    const rezeptId = Number(req.params.id);
+    const rezept = await addZutatToRecipe(rezeptId, req.body);   // wirft 400, 404 oder 409
+    res.status(201).json(rezept);       // 201 = Created, mit dem Rezept inkl. aller Zutaten
   } catch (err) {
     next(err);
   }
